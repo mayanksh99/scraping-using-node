@@ -15,12 +15,35 @@ module.exports.getData = (req, res) => {
 			let elements = document.querySelectorAll(
 				"body > div > table > tbody > tr"
 			);
-			return elements.forEach(el => {
-				console.log(el);
-				// let articles = [];
-				// return el.querySelector("td > a").getAttribute("href");
+			let links = Object.keys(elements).map(key => {
+				let date = elements[key].querySelector("td:nth-child(2)")
+					.innerText;
+				let day = new Date(date);
+				let today = new Date("2020-04-17");
+				// if (day.toDateString() === today.toDateString()) {
+				// 	return elements[key]
+				// 		.querySelector("td > a")
+				// 		.getAttribute("href");
+				// }
+				return (
+					day.toDateString() === today.toDateString() &&
+					elements[key].querySelector("td > a").getAttribute("href")
+				);
 			});
+			return links;
 		});
-		console.log(headings);
+
+		return res.status(200).json({ message: "success", data: headings });
+		// await browser.close();
+		// let html = await page.content();
+		// let $ = cheerio.load(html);
+		// $("body > div > table > tbody")
+		// 	.html()
+		// 	.each(el => {
+		// 		console.log(el);
+		// 	});
+		// $("tbody").e(el => {
+		// 	console.log($(el).html());
+		// });
 	})();
 };
