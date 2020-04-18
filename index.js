@@ -6,7 +6,7 @@ const app = express();
 
 const cors = require("cors");
 require("dotenv").config();
-// require("./config/dbconnection");
+require("./config/dbconnection");
 
 app.use(compression());
 app.use(cors({ exposedHeaders: "x-auth-token" }));
@@ -26,7 +26,7 @@ app.use(
 );
 
 //load Schemas
-// const User = require("./models/User");
+const User = require("./models/User");
 
 //Routes
 app.use("/api/v1", require("./routes/api/v1/index"));
@@ -36,12 +36,11 @@ app.use("*", notFound);
 //Error Handlers
 app.use(sendErrors);
 
-PORT = 5000;
 //Setting up server
 startServer = async () => {
 	try {
-		await app.listen(PORT);
-		console.log(`Server is up and running on Port ${PORT}`);
+		await app.listen(process.env.PORT);
+		console.log(`Server is up and running on Port ${process.env.PORT}`);
 	} catch (err) {
 		console.log("Error in running server.");
 	}
